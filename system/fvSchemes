@@ -1,0 +1,76 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include "include/fvSchemesW"
+
+ddtSchemes
+{
+    default         	Euler;
+    //ddt(U)		Euler;
+    //ddt(epsilon) 	Euler;
+    //ddt(k)		Euler;
+    //ddt(W)		Euler;
+}
+
+gradSchemes
+{
+    default         Gauss linear; //no gradSchemes in the solver
+}
+
+divSchemes
+{
+    default         			none;
+    div(phi,U)      			bounded Gauss linearUpwind grad(U);
+    div(phi,k)      			bounded Gauss upwind;
+    div(phi,epsilon) 			bounded Gauss upwind;
+    div(phi,omega) 			bounded Gauss upwind;
+    div(phi,R)      			bounded Gauss upwind;
+    div(R)          			Gauss linear;
+    div(phi,nuTilda) 			bounded Gauss upwind;
+    div((nuEff*dev2(T(grad(U))))) 	Gauss linear;
+    div(phi,W)      			bounded Gauss upwind; //W
+    div(phi,W) 				bounded Gauss upwind;
+    div(phiW,W) 			bounded Gauss upwind;
+}
+
+laplacianSchemes
+{
+    default      			Gauss linear limited 0.5;
+    //laplacian(nuEff,U) 		Gauss linear corrected;
+    //laplacian((1|A(U)),p)		Gauss linear corrected;
+    //laplacian(DepsilonEff,epsilon) 	Gauss linear corrected;
+    //laplacian(DkEff,k)		Gauss linear corrected;
+    //laplacian(nuEff,W)		Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         		linear;
+    //flux(U)			linear;
+    //dotInterpolate(S,U_0)	linear;
+    //interpolate((1|A(U)))	linear;
+    //flux(HbyA)		linear;
+    //flux(Uw)			linear;
+}
+
+snGradSchemes
+{
+    default         corrected; //no snGradSchemes in the solver
+}
+
+
+// ************************************************************************* //

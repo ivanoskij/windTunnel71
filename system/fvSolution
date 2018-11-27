@@ -1,0 +1,126 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// 	/!\ when using PIMPLE try to set most of the computational effort in pFinal 
+
+solvers
+{
+    p
+    {
+        solver		GAMG;			//many nodes --> PCG // few nodes --> GAMG//
+        tolerance	1e-5;			//start with 1e-5//end with 1e-6//
+        relTol		0.05;			//start with 0.01//end with 0.001//
+        smoother	DICGaussSeidel;		
+	//nPreSweeps	0;
+	//nPostSweeps	2;
+	//cacheAgglomeration	true;
+	//nCellsInCoarsestLevel	20;		//default --> 10//set to high value --> 500-1000
+	//agglomerator	faceAreaPair;		//faceAreaPair better than algebraicPair
+	//mergeLevels	1; 			//1 --> simple mesh// 2 --> complex mesh//
+    }
+/*    pFinal
+    {
+        $p;
+	tolerance 	1e-06;
+        relTol          0;
+    }
+*/
+    pFinal
+    {
+        solver		GAMG;			//many nodes --> PCG // few nodes --> GAMG//
+        tolerance	1e-6;			//start with 1e-5//end with 1e-6//
+        relTol		0.001;			//start with 0.01//end with 0.001//
+        smoother	DICGaussSeidel;		
+	//nPreSweeps	0;			//must be 0 for any every variable, but for pressure
+	//nPostSweeps	2;
+	//cacheAgglomeration	true;
+	//nCellsInCoarsestLevel	20;		//default --> 10//set to high value --> 500-1000//thumb rule --> sqrt(nCells) --> /!\must high number of processors//
+	//agglomerator	faceAreaPair;		//faceAreaPair better than algebraicPair
+	//mergeLevels	1; 			//1 --> simple mesh// 2 --> complex mesh//
+    }
+    "(U|k|epsilon)"
+    {
+        solver          smoothSolver;		//smoothSolver --> better for U
+        smoother        symGaussSeidel;
+        tolerance       1e-05; //1e-5;		//use tight tolerance 1e-8//
+        relTol          0.01;			
+    }
+    "(U|k|epsilon)Final"
+    {
+        $U;
+	tolerance	1e-06;
+        relTol          0;
+    }
+        W
+    {
+        solver           PBiCGStab;//PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+    }
+    #include "include/fvSolutionW"
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+PIMPLE
+{
+    nOuterCorrectors		200;
+    nNonOrthogonalCorrectors	0;	//default --> 0//non-orthogonality <50 --> 1//on-orthogonality 50-70 --> 2//on-orthogonality >70 --> 3//
+    nCorrectors			2;
+    turbOnFinalIterOnly 	false;
+    momentumPredictor 		no;
+/*
+    residualControl
+    {
+	U 1e-05;
+	p 1e-05;
+    }
+*/
+    residualControl
+    {
+	U 
+	{
+           tolerance 1e-5;
+           relTol 0;
+	}
+	p 
+	{
+           tolerance 1e-5;
+           relTol    0;
+	}
+    }
+    relaxationFactors //relaxation reduces obscillations and divergence, but also velocity //mandatory in PIMPLE 
+    {
+	fields 
+	{
+	    p 0.7; 
+	    pFinal 1;
+	}
+	equations
+	{
+	    "U|k|epsilon" 0.7;
+	    "(U|k|epsilon)Final" 1;
+	}
+    }
+}
+
+
+
+
+
+
+// ************************************************************************* //

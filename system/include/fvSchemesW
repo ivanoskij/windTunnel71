@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemesW;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+/*
+ddtSchemes
+{
+    ddt(W0)		Euler;
+    ddt(W1)		Euler;
+    ddt(W2)		Euler;
+    ddt(W3)		Euler;
+    ddt(W4)		Euler;
+    ddt(W5)		Euler;
+    ddt(W6)		Euler;
+    ddt(W7)		Euler;
+    ddt(W8)		Euler;
+    ddt(W9)		Euler;
+}
+*/
+divSchemes
+{
+    div(phi,W0)	bounded Gauss upwind;
+    div(phi,W1)	bounded Gauss upwind;
+    div(phi,W2)	bounded Gauss upwind;
+    div(phi,W3)	bounded Gauss upwind;
+    div(phi,W4)	bounded Gauss upwind;
+    div(phi,W5)	bounded Gauss upwind;
+    div(phi,W6)	bounded Gauss upwind;
+    div(phi,W7)	bounded Gauss upwind;
+    div(phi,W8)	bounded Gauss upwind;
+    div(phi,W9)	bounded Gauss upwind;
+
+    div(phiW0,W0) bounded Gauss upwind;
+    div(phiW1,W1) bounded Gauss upwind;
+    div(phiW2,W2) bounded Gauss upwind;
+    div(phiW3,W3) bounded Gauss upwind;
+    div(phiW4,W4) bounded Gauss upwind;
+    div(phiW5,W5) bounded Gauss upwind;
+    div(phiW6,W6) bounded Gauss upwind;
+    div(phiW7,W7) bounded Gauss upwind;
+    div(phiW8,W8) bounded Gauss upwind;
+    div(phiW9,W9) bounded Gauss upwind;
+}
+/*
+laplacianSchemes
+{
+    laplacian(nuEff,W0)		Gauss linear corrected;
+    laplacian(nuEff,W1)		Gauss linear corrected;
+    laplacian(nuEff,W2)		Gauss linear corrected;
+    laplacian(nuEff,W3)		Gauss linear corrected;
+    laplacian(nuEff,W4)		Gauss linear corrected;
+    laplacian(nuEff,W5)		Gauss linear corrected;
+    laplacian(nuEff,W6)		Gauss linear corrected;
+    laplacian(nuEff,W7)		Gauss linear corrected;
+    laplacian(nuEff,W8)		Gauss linear corrected;
+    laplacian(nuEff,W9)		Gauss linear corrected;
+}
+*/
+/*
+interpolationSchemes
+{
+    flux(UW0)			linear;
+    flux(UW1)			linear;
+    flux(UW2)			linear;
+    flux(UW3)			linear;
+    flux(UW4)			linear;
+    flux(UW5)			linear;
+    flux(UW6)			linear;
+    flux(UW7)			linear;
+    flux(UW8)			linear;
+    flux(UW9)			linear;
+}
+*/
+/*
+snGradSchemes
+{
+}
+*/
+// ************************************************************************* //

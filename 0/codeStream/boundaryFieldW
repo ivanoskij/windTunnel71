@@ -1,0 +1,70 @@
+//---------------------------------------------------------------------------------------START codeStream
+
+        type            fixedValue;
+        value           #codeStream
+        {
+            codeInclude	//files needed for automatic compilation
+            #{
+                #include "fvCFD.H"
+            #};
+
+            codeOptions	//options for compilation
+            #{
+                -I$(LIB_SRC)/finiteVolume/lnInclude \
+                -I$(LIB_SRC)/meshTools/lnInclude \
+            #};
+
+     	    codeLibs	//libs needed to visualize BC in paraview
+    	    #{
+        		-lmeshTools \
+        		-lfiniteVolume
+    	    #};
+
+            code	//personal code
+            #{
+                const IOdictionary& d = static_cast<const IOdictionary&>
+		(
+                    dict.parent().parent()
+                ); // /?\ something related to topoSetDict
+
+                const fvMesh& mesh = refCast<const fvMesh>(d.db());
+                const label id = mesh.boundary().findPatchID("in");
+                const fvPatch& patch = mesh.boundary()[id];
+
+                scalarField W(patch.size(), 0);
+
+                //const scalar pi = constant::mathematical::pi;	
+                const scalar A = -114.58;
+                const scalar B = 412.5;
+                const scalar C = 542.29;
+                const scalar D = 307.88;
+                const scalar E = -62.766;
+
+                const scalar zmin = 0.5;
+                const scalar zmax = 1.3;
+                const scalar ymin = 0.5;
+                const scalar ymax = 2.5;	
+
+                forAll(W, i)
+                {
+                    const scalar x = patch.Cf()[i][0];
+                    const scalar y = patch.Cf()[i][1];
+                    const scalar z = patch.Cf()[i][2];
+			
+                    if (z < zmin || z > zmax || y < ymin || y > ymax)
+                    {
+                    	W[i]=scalar(0);
+                    }
+                    else
+                    {
+                    	W[i] = scalar(A*pow(z,4) + B*pow(z,3) + C*pow(z,2) + D*z + E); 
+                    	// W[i] = scalar(B);	//test only
+                    }
+                }
+
+                W.writeEntry("", os);
+            #};
+        };
+
+//---------------------------------------------------------------------------------------END codeStream 
+

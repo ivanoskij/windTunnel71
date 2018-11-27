@@ -1,0 +1,97 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system/include";
+    object      fvSolutionW;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    W0
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W1
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W2
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W3
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W4
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W5
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W6
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W7
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W8
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+    W9
+    {
+        solver           PBiCG;
+	preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0;
+
+    }
+// ************************************************************************* //
